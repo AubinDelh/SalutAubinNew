@@ -1,0 +1,1393 @@
+/* ---------- Reset minimal ---------- */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption,
+tbody, tfoot, thead, tr, th, td, article, aside,
+details, figcaption, figure, footer, header, hgroup,
+menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0; padding: 0; border: 0; font: inherit; vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, main { display: block; }
+ol, ul { list-style: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* ---------- Base ---------- */
+:root { --bg:#fff; --black:#000; --grey:#808080; }
+
+*, *::before, *::after { box-sizing: border-box; }
+@font-face {
+  font-family: 'AlteHaasGroteskRegular';
+  src: url('../fonts/AlteHaasGroteskRegular.ttf') format('truetype');
+  font-weight: normal; font-style: normal;
+}
+@font-face {
+  font-family: 'AlteHaasGroteskBold';
+  src: url('../fonts/AlteHaasGroteskBold.ttf') format('truetype');
+  font-weight: normal; font-style: normal;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'AlteHaasGroteskRegular', sans-serif;
+  line-height: 2;
+  /* marge droite gardée si tu en as besoin */
+  overflow: visible; /* important pour sticky */
+}
+
+a {
+  color: var(--black);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  transition: letter-spacing .3s;
+}
+
+p { font-size: 12px; letter-spacing: 0.5px; }
+
+img {
+  max-width: 100%; /* évite les débords */
+  height: auto;
+  display: block;
+}
+
+/* ---------- Overlay ---------- */
+#close-overlay {
+  position: fixed; inset: 0;
+  width: 100vw; height: 100vh;
+  background: #fff; opacity: .8; color:#000;
+  z-index: 999999; display: none;
+}
+
+/* ---------- Layout global : 1 colonne ---------- */
+.wrapper {
+  width: 100%;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 48px;
+  overflow: visible; /* pour sticky */
+}
+
+/* Neutralise l’ancien split gauche/droite */
+.wrapper .left, .left,
+.wrapper .right {
+  position: static !important;
+  float: none !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* ---------- Header sticky (transparent) ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 5;
+  background: none;
+  padding: 12px 16px;
+}
+
+/* Ligne : brand à gauche, menu à droite */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Brand (SALUTAUBIN) */
+.brand { flex: 0 0 auto; }
+.brand a {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 12px; line-height: 1;
+  letter-spacing: 0.5px; color: inherit;
+  transition: letter-spacing .3s;
+}
+.brand a:hover { letter-spacing: 3px; }
+
+/* Menu horizontal (droite) — fonctionne avec <a> seuls ou <p><a> */
+.menu {
+  font-family: 'AlteHaasGroteskBold';
+  letter-spacing: -30px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center; justify-content: flex-end;
+  gap: 12px 24px;
+  flex-wrap: wrap;  /* wrap autorisé si place insuffisante */
+}
+.menu p { margin: 0; display: inline-block; }
+.menu a { display: inline-block; white-space: nowrap; font-size: 12px; line-height: 1; }
+
+/* ---------- Projets / carrousels ---------- */
+.project {
+  font-size: 16px;
+  position: relative;
+  width: 100%;
+  padding: 100px 12px 12px;
+  margin: 0;
+  margin-top: 45px;
+}
+
+.project h1 {
+  font-size: 12px; line-height: 1.2; letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+/* Carrousel au-dessus du header (menu) comme demandé */
+.carousel {
+  position: relative; z-index: 10;
+  padding: 0px 0;
+  display: flex; justify-content: center; align-items: center;
+  height: 780px; overflow: hidden;
+}
+.carousel img {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 100%; max-width: 100%;
+  display: none; object-fit: contain; z-index: 10;
+}
+.carousel img.active { display: block; }
+
+.carousel-counter {
+  text-align: center; margin-top: 12px;
+  font-size: 12px; letter-spacing: 0.5px;
+}
+
+.project--info {
+  display: flex; justify-content: space-between; align-items: center;
+  line-height: 150%;
+  font-size: 12px; padding: 8px 0; margin-bottom: 16px;
+}
+.project--info--details {
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: all .4s ease;
+}
+.project--info--details.open {
+  max-height: 500px; opacity: 1;
+}
+
+/* ---------- Légal ---------- */
+.legal { margin: 8px 20px 32px auto; }
+#legal--sidebar a { color: #000; }
+
+/* ---------- Responsif léger ---------- */
+@media (max-width: 900px) {
+  .carousel { height: 55vh; }
+}
+@media (max-width: 600px) {
+  .wrapper { padding: 16px; gap: 32px; }
+  .menu { gap: 8px 16px; }
+  .carousel { height: 50vh; }
+}
+/* --- Header full-bleed (sans max-width), sticky et transparent --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;         /* sous les images (voir plus bas) */
+  background: none;
+  padding: 12px 0;    /* pas de marges latérales ici */
+}
+
+/* Barre de nav : occupe 100% de la largeur, pas de max-width */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: none;     /* <-- important : pas de 1100px ici */
+  padding: 0 16px;     /* petites gouttières côté écran */
+}
+
+/* Brand à gauche + menu à droite (même style que le reste) */
+.brand { flex: 0 0 auto; }
+.brand a {
+  font-family: 'AlteHaasGroteskBold';
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: .5px;
+  color: inherit;
+  transition: letter-spacing .3s;
+}
+.brand a:hover { letter-spacing: 3px; }
+
+.site-header .menu {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+}
+.site-header .menu p { margin: 0; display: inline-block; }
+.site-header .menu a {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: .5px;
+}
+
+/* Les carrousels au-dessus du header (menu passe derrière les images) */
+.carousel { position: relative; z-index: 10; }
+.carousel img { z-index: 50; }
+
+/* --- (Optionnel) Contenu centré/limité, pas le header --- */
+.project {
+  max-width: 1200px;   /* remets ta limite sur le contenu si tu veux */
+  margin: 0 auto;
+}
+/* Footer fixe en bas de l’écran */
+.site-footer {
+  font-family: 'AlteHaasGroteskBold';
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 5;            /* reste sous les carrousels (qui sont z=10) */
+  background: none;
+  padding: 12px 16px;
+}
+
+/* Ligne gauche/droite */
+.footer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Liens du footer */
+.footer-left a,
+.footer-right a {
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: .5px;
+  text-decoration: none;
+  color: inherit;
+  transition: letter-spacing .3s;
+}
+
+.footer-left a:hover,
+.footer-right a:hover {
+  letter-spacing: 3px;
+}
+
+/* Scroll fluide pour ↑ TOP */
+html { scroll-behavior: smooth; }
+
+/* Si ça cache du contenu en bas, tu peux donner un peu d’air */
+.wrapper { padding-bottom: 60px; }
+
+.brand a,
+.site-header .menu a,
+.site-footer .footer-left a,
+.site-footer .footer-right a {
+  transition: letter-spacing .3s;
+}
+
+.brand a:hover,
+.site-header .menu a:hover,
+.site-footer .footer-left a:hover,
+.site-footer .footer-right a:hover {
+  letter-spacing: 3px;
+}
+  /* ===== Splash ===== */
+/* ===== Splash ===== */
+#splash{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  color: black;
+  z-index: 99999;
+  opacity: 1;
+  transition: opacity .6s ease;
+}
+#splash.is-hidden{ opacity: 0; pointer-events: none; }
+
+.splash-brand{
+  font-family: "nbinternationalpromono", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: .12em;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: .15em;
+}
+.splash-caret{
+  display: inline-block;
+  width: .6ch;
+  border-left: 2px solid currentColor;
+  translate: 0 .05em;
+  animation: splash-blink 1s step-end infinite;
+}
+@keyframes splash-blink{ 50%{ opacity: 0; } }
+
+/* Empêche le scroll pendant le splash */
+body.splash-lock{ overflow: hidden; }
+
+/* Apparition en fondu de ton site */
+#page{
+  opacity: 0;
+  transition: opacity .6s ease 2000ms;
+}
+body.splash-done #page{ opacity: 1; }
+
+/* Accessibilité : respecte “réduire les animations” */
+@media (prefers-reduced-motion: reduce){
+  #splash, #page{ transition: none !important; }
+  .splash-caret{ animation: none; }
+}
+
+
+/* ===== ABOUT layout ===== */
+.about {
+  min-height: calc(100vh - var(--header-h, 70px) - var(--footer-h, 70px));
+  display: flex;
+  flex-direction: column;
+  padding: 60px 48px;
+  gap: 40px;
+  background-color: #000;
+}
+
+/* gros texte */
+.about__content {
+  flex: 1;
+  padding: 12px;
+  padding-top: 200px;
+  color: #d0d0d0;
+}
+
+.about__lead {
+  font-family: 'AlteHaasGroteskBold';
+  font-size: 45px;
+  line-height: 1.15;
+  margin: 0 0 36px 0;
+  color: #d0d0d0;
+
+}
+
+/* bas de page : 12px */
+.about__meta {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 48px;
+  font-size: 16px;
+  line-height: 1.2;
+  color: white;
+}
+
+.about__meta-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.about__meta-link {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1.2;
+  text-decoration: none;
+  color: white;
+}
+
+/* mobile */
+@media (max-width: 900px) {
+  .about {
+    padding: 28px 20px;
+  }
+  .about__lead {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+  .about__meta {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+
+/* ===== Fondu inter-pages (sécurisé si le JS échoue) ===== */
+/* Par défaut (si le JS ne tourne pas) : la page est visible */
+.page-fx #page { opacity: 1; }
+
+/* Le JS active les transitions en ajoutant .has-pt sur <html> */
+.has-pt .page-fx #page { opacity: 0; transition: opacity 1s ease; }
+.has-pt .page-fx.page-in #page { opacity: 1; }
+.has-pt .page-fx.page-out #page { opacity: 0; }
+
+
+/* Si ton footer est fixed, on n’anime que le contenu (#page) */
+
+/* Désactive les hovers/transitions pendant un court instant après navigation */
+.disable-hover .site-header,
+.disable-hover .site-footer { pointer-events: none; } /* pas de :hover capté */
+
+.disable-hover a { transition: none !important; }
+.disable-hover a:hover { letter-spacing: inherit !important; } /* pas d'effet sur ligne */
+
+/* Par défaut (sans JS) : page visible */
+.page-fx #page { opacity: 1; }
+
+/* JS présent (classe ajoutée dans <head>) → états de transition */
+.has-pt .page-fx #page { 
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  will-change: opacity;
+}
+.has-pt .page-fx.page-in #page { opacity: 1; }   /* fade-in */
+.has-pt .page-fx.page-out #page { opacity: 0; }  /* fade-out */
+
+@media (prefers-reduced-motion: reduce) {
+  .has-pt .page-fx #page { transition: none !important; }
+}
+.nav-bar { display:flex; align-items: baseline; }
+
+.nav-bar .brand,
+.nav-bar .menu {
+  display:flex;           /* garantit une baseline mesurable */
+  align-items: baseline;
+}
+
+.nav-bar a { line-height: 1; font-size: 12px; } /* normalisation */
+
+/* === Header/Footer: hover = underline (pas de letter-spacing) === */
+.site-header .menu a,
+.site-footer .footer-left a,
+.site-footer .footer-right a,
+.brand a{
+  text-decoration: none;
+  /* petit réglage d’underline propre */
+  text-underline-offset: .18em;
+  /* on arrête d’animer le letter-spacing ici */
+  transition: color 2s ease-in-out;
+}
+
+/* Hover : underline + (on neutralise l'ancien letter-spacing) */
+.site-header .menu a:hover,
+.site-footer .footer-left a:hover,
+.site-footer .footer-right a:hover,
+.brand a:hover{
+  letter-spacing: .5px;            /* garde la valeur de base (pas d'écartement) */
+  text-decoration-color: currentColor;
+  text-underline-offset: .25em;    /* petit “lift” agréable */
+}
+
+/* Accessibilité clavier */
+.site-header .menu a:focus-visible,
+.site-footer .footer-left a:focus-visible,
+.site-footer .footer-right a:focus-visible,
+.brand a:focus-visible{
+  outline: none;
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: .25em;
+}
+
+/* ==== HERO plein écran (entre header et footer) ==== */
+:root{
+  --hero-side-padding: 0px;
+  --btn-size: 40px;
+}
+
+/* calc dyn = 100vh - header - footer (géré en JS pour la hauteur exacte) */
+.hero{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* la hauteur est posée en ligne via style="" par le JS */
+  padding: 0 var(--hero-side-padding);
+}
+
+.hero__track{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__track img{
+  position: absolute; inset: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0; 
+  transition: none;
+}
+
+.hero__track img.is-active{ opacity: 1; }
+
+/* boutons */
+.hero__btn{
+  position: absolute; top: 50%;
+  transform: translateY(-50%);
+  width: var(--btn-size); height: var(--btn-size);
+  border: 1px solid currentColor; border-radius: 999px;
+  background: rgba(255,255,255,.4);
+  backdrop-filter: blur(6px);
+  display: grid; place-items: center;
+  cursor: pointer;
+  z-index: 20;
+}
+.hero__btn.prev{ left: 8px; }
+.hero__btn.next{ right: 8px; }
+
+/* dots */
+.hero__dots{
+  position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 20;
+}
+.hero__dots button{
+  width: 8px; height: 8px; border-radius: 999px;
+  border: 0; background: #d0d0d0; opacity: .8; cursor: pointer;
+}
+.hero__dots button[aria-current="true"]{ background: #000; opacity: 1; }
+
+
+/* carrousels projets : transition douce + support swipe */
+.carousel{
+  /* ta règle d’origine est ok — on ajoute l’opacité */
+}
+.carousel img{
+  transition: opacity .4s ease;
+  opacity: 0;
+}
+.carousel img.active{ opacity: 1; display: block; }
+
+/* tactile : zones de clic gauche/droite (desktop) */
+.carousel::before,
+.carousel::after{
+  content:"";
+  position:absolute; top:0; bottom:0; width:50%;
+}
+.carousel::before{ left:0; }
+.carousel::after{ right:0; }
+
+@media (max-width: 900px){
+  .hero__btn{ display: none; } /* sur mobile, le swipe suffit */
+}
+
+/* Respecte reduce-motion */
+@media (prefers-reduced-motion: reduce){
+  .hero__track img,
+  .carousel img{ transition: none !important; }
+}
+/* Fallback d’affichage du HERO si JS cassé */
+.hero__track img:first-child { opacity: 1; }
+.hero__track img { display: block; }
+
+/* Flèche fixed : centrée et au niveau du footer */
+.hero__scroll{
+  position: fixed;         /* au lieu d'absolu dans le hero */
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;               /* calé par le JS pour viser le centre du footer */
+  z-index: 40;             /* au-dessus du footer */
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1;
+  opacity: .9;
+  padding: 6px 10px;       /* zone cliquable agréable */
+  border-radius: 999px;
+  background: transparent; /* pas de pastille visuelle */
+}
+/* Desktop : on garde "contain" (images entières, pas de crop) */
+.hero__track img{
+  object-fit: contain;
+}
+
+/* Mobile/tablette : plein écran visuel = "cover" pour éviter les bandes */
+@media (max-width: 900px){
+  .hero__track img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;             /* rempli l'écran */
+    object-position: center;       /* centre par défaut */
+  }
+}
+
+/* Flèche du hero (bouton scroll) – déjà passée en absolute dans le hero */
+.hero__scroll{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;                    /* recalé par le JS pour être juste au-dessus du footer */
+  z-index: 20;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1;
+  opacity: .95;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: transparent;
+  transition: opacity .25s ease;
+}
+.hero__scroll.is-hidden{ opacity: 0; pointer-events: none; }
+
+/* Échelle typographique plus petite sur mobile */
+@media (max-width: 900px){
+  /* Texte courant */
+  p, .about p, .about li { font-size: 12px !important; letter-spacing: 0.4px; }
+
+  /* Liens (header/footer/brand/nav) */
+  a, .brand a,
+  .site-header .menu a,
+  .site-footer .footer-left a,
+  .site-footer .footer-right a { font-size: 11px !important; letter-spacing: 0.4px; }
+
+  /* Titres de projets et éléments UI */
+  .project h1 { font-size: 12px !important; letter-spacing: 0.4px; }
+  .carousel-counter { font-size: 11px !important; letter-spacing: 0.4px; }
+
+  /* About title */
+  .about h1 { font-size: 12px !important; letter-spacing: 0.4px; }
+}
+
+/* Encore un cran en-dessous pour très petits écrans */
+@media (max-width: 380px){
+  p, .about p, .about li { font-size: 11px !important; letter-spacing: 0.35px; }
+  a, .brand a,
+  .site-header .menu a,
+  .site-footer .footer-left a,
+  .site-footer .footer-right a { font-size: 10px !important; letter-spacing: 0.35px; }
+  .project h1 { font-size: 11px !important; }
+  .carousel-counter { font-size: 10px !important; }
+  .about h1 { font-size: 11px !important; }
+}
+
+/* Le hero peut déborder (pour que la flèche morde la ligne du footer) */
+.hero{ overflow: visible !important; }
+
+/* Flèche : dans le hero, pas sticky, avec transition de visibilité */
+.hero__scroll{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;                  /* la valeur exacte sera calculée en JS */
+  z-index: 20;                /* au-dessus du footer (z=5) mais pas sticky */
+  font-size: 12px;
+  line-height: 1;
+  opacity: .95;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: transparent;
+  transition: opacity .25s ease, transform .2s ease;
+}
+.hero__scroll.is-hidden{ opacity: 0; pointer-events: none; }
+
+.hero{ overflow: visible !important; }   /* laisser dépasser la flèche */
+.hero__scroll{ position: absolute; }     /* pas sticky */
+
+/* Les slides du hero (img, picture, video) partagent la même logique */
+.hero__track{ position:absolute; inset:0; }
+.hero__track > *{
+  position:absolute; inset:0;
+  opacity:0; transition: none;
+}
+.hero__track > *.is-active{ opacity:1; }
+
+/* Rendu plein écran : */
+.hero__track img,
+.hero__track video{
+  width:100%; height:100%;
+  object-fit: contain;          /* desktop : pas de crop */
+}
+
+@media (max-width: 900px){
+  .hero__track img,
+  .hero__track video{
+    object-fit: cover;          /* mobile : vrai “full page” */
+    object-position: center;
+  }
+}
+
+/* (si pas déjà fait) la flèche dans le hero, pas sticky */
+.hero{ overflow: visible; }
+.hero__scroll{ position:absolute; left:50%; transform:translateX(-50%); }
+
+/* --- Anti-sélection & anti-highlight dans le HERO --- */
+.hero {
+  -webkit-tap-highlight-color: transparent; /* iOS: pas de flash bleu au tap */
+}
+
+.hero, .hero * {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;               /* empêche la sélection de texte/média */
+  -webkit-touch-callout: none;     /* pas de menu au long-press sur iOS */
+}
+
+/* Les médias ne captent pas les interactions : les clics vont au conteneur */
+.hero__track img,
+.hero__track video {
+  pointer-events: none;            /* laisse le clic atteindre .hero */
+  -webkit-user-drag: none;         /* empêche le drag d'image/vidéo */
+  user-drag: none;
+}
+
+/* La flèche reste cliquable */
+.hero__scroll { pointer-events: auto; }
+
+@media (max-width: 900px){
+  .project .carousel { height: auto !important; min-height: 200px; }
+}
+
+/* Forcer 12px pour les infos projets, même si i18n enlève le <p> */
+.project--info--details,
+.project--info--details p { 
+  font-size: 12px !important;
+  line-height: 2; /* ajuste si tu veux (tu as 2 globalement) */
+}
+/* Taille de la flèche du hero */
+.hero__scroll {
+  font-size: 18px !important;  /* choisis 12/14/16 selon ton goût */
+  padding: 8px 12px;           /* augmente la zone cliquable sans grossir la flèche */
+  line-height: 1;
+}
+/* Header / footer en overlay par-dessus le hero */
+.site-header,
+.site-footer {
+  position: fixed !important; left: 0; right: 0;
+  z-index: 30; background: none;
+}
+.site-header { top: 0; }
+.site-footer { bottom: 0; }
+
+/* === HERO plein écran (cover) ======================================== */
+.hero {
+  position: relative;
+  height: 100vh !important;  /* le JS raffinera avec visualViewport */
+  overflow: visible !important; /* laisse dépasser la flèche */
+}
+.hero__track { position: absolute; inset: 0; }
+
+.hero__track > img,
+.hero__track > picture > img,
+.hero__track > video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;                  /* plein écran */
+  opacity: 0; transition: none;       /* (pas de fondu demandé) */
+  pointer-events: none;               /* clics au conteneur (→ next) */
+  -webkit-user-drag: none; user-drag: none;
+  -webkit-user-select: none; user-select: none;
+}
+.hero__track > .is-active { opacity: 1; }
+
+/* Anti highlight tap iOS + no select */
+.hero, .hero * {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; user-select: none;
+}
+
+/* Flèche : centrée et alignée juste au-dessus du footer */
+.hero__scroll{
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  z-index: 31;
+  font-size: 14px; line-height: 1;
+  padding: 8px 12px; text-decoration: none;
+  background: transparent;
+  transition: opacity .25s ease, transform .2s ease;
+  pointer-events: auto; /* reste cliquable */
+}
+.hero__scroll.is-hidden { opacity: 0; pointer-events: none; }
+
+@media (max-width: 900px){
+  /* si tu as une règle mobile qui réduit tous les <a>, on protège la flèche */
+  .hero__scroll { font-size: 14px !important; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero__track > img,
+  .hero__track > picture > img,
+  .hero__track > video { transition: none !important; }
+}
+/* Header / footer en overlay, par-dessus le hero */
+.site-header,
+.site-footer {
+  position: fixed !important;
+  left: 0; right: 0;
+  z-index: 30;
+  background: none !important;
+}
+.site-header { top: 0; }
+.site-footer { bottom: 0; }
+
+/* === HERO plein écran (cover) ======================================== */
+.hero { position: relative; height: 100vh !important; }
+.hero__track { position: absolute; inset: 0; }
+.hero__track > img,
+.hero__track > picture > img,
+.hero__track > video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;            /* plein écran */
+  opacity: 0; transition: none; /* pas de fondu */
+  pointer-events: none;
+  -webkit-user-select: none; user-select: none;
+}
+.hero__track > .is-active { opacity: 1; }
+
+/* === Flèche : FIXED tout en bas du viewport ========================== */
+.hero__scroll{
+  position: fixed !important;              /* collée au viewport */
+  left: 50%; transform: translateX(-50%);
+  bottom: max(0px, env(safe-area-inset-bottom));
+  z-index: 9999;                           /* au-dessus du footer */
+  color: var(--ui) !important;
+  font-size: 14px; line-height: 1;
+  padding: 8px 12px;
+  text-decoration: none;
+  background: transparent;
+  transition: opacity .25s ease, transform .2s ease;
+  pointer-events: auto;
+}
+.hero__scroll.is-hidden { opacity: 0; pointer-events: none; }
+
+@media (max-width: 900px){
+  /* protège la taille de la flèche si tu réduis les <a> ailleurs */
+  .hero__scroll{ font-size: 14px !important; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero__track > img,
+  .hero__track > picture > img,
+  .hero__track > video { transition: none !important; }
+}
+
+
+/* Header/Footer doivent passer au-dessus du hero */
+.site-header,
+.site-footer{
+  position: fixed;
+  left: 0; right: 0;
+  z-index: 30;
+  background: none;
+}
+.site-header{ top: 0; }
+.site-footer{ bottom: 0; }
+
+/* Le HERO sous le header/footer */
+.hero{ position: relative; z-index: 1; }
+
+/* Flèche vraiment en bas de l’écran (au-dessus de la zone sûre iOS) */
+.hero__scroll{
+  position: fixed !important;
+  left: 50%; transform: translateX(-50%);
+  bottom: max(0px, env(safe-area-inset-bottom)); /* iOS friendly */
+  z-index: 10000;
+  font-size: 14px; line-height: 1;
+  padding: 8px 12px;
+  background: transparent;
+  text-decoration: none;
+  transition: opacity .25s ease, transform .2s ease;
+}
+.hero__scroll.is-hidden{ opacity: 0; pointer-events: none; }
+
+/* ===== Flèche: collée au bas de la page (viewport), sans offset ===== */
+.hero__scroll{
+  position: fixed !important;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: env(safe-area-inset-bottom, 0px); /* iPhone OK */
+  z-index: 10000;
+  font-size: 14px;
+  line-height: 1;
+  padding: 8px 12px;
+  background: transparent;
+  color: var(--ui, #000);
+  text-decoration: none;
+  transition: opacity .25s ease, transform .2s ease;
+}
+.hero__scroll.is-hidden{ opacity: 0; pointer-events: none; }
+
+
+
+/* Header/Footer au-dessus du hero (si ce n'est pas déjà fait) */
+.site-header, .site-footer { position: fixed; left:0; right:0; background:none; z-index: 30; }
+.site-header{ top:0; }
+.site-footer{ bottom:0; }
+
+/* ===================== */
+/* === HERO OVERRIDES === */
+/* (à coller tout en bas du fichier) */
+/* ===================== */
+
+/* Header/Footer en overlay */
+.site-header,
+.site-footer{
+  position: fixed !important;
+  left: 0; right: 0;
+  z-index: 30;
+  background: none !important;
+  color: var(--ui) !important;
+}
+.site-header { top: 0; }
+.site-footer { bottom: 0; }
+
+/* Hero plein écran en “cover” */
+.hero{ position: relative; height: 100vh; z-index: 1; }
+.hero__track{ position: absolute; inset: 0; }
+.hero__track > img,
+.hero__track > picture > img,
+.hero__track > video{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0; transition: none;
+  pointer-events: none;
+  -webkit-user-select: none; user-select: none;
+}
+.hero__track > .is-active{ opacity: 1; }
+
+/* Flèche collée au bas du viewport (au-dessus du footer) */
+.hero__scroll{
+  position: fixed !important;
+  left: 50%; transform: translateX(-50%);
+  bottom: max(0px, env(safe-area-inset-bottom));
+  z-index: 9999; /* au-dessus du footer */
+  color: var(--ui) !important;
+  font-size: 16px; line-height: 1;
+  padding: 18px 12px;
+  text-decoration: none;
+  background: transparent;
+  transition: opacity .25s ease, transform .2s ease;
+  pointer-events: auto;
+}
+.hero__scroll.is-hidden{ opacity: 0; pointer-events: none; }
+
+@media (max-width: 900px){
+  .hero__scroll{ font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero__track > img,
+  .hero__track > picture > img,
+  .hero__track > video{ transition: none !important; }
+}
+
+/* (optionnel) si tu veux garder juste le petit effet d’underline au hover : */
+.brand a,
+.site-header .menu a,
+.site-footer .footer-left a,
+.site-footer .footer-right a {
+  transition: text-underline-offset .2s ease !important; /* pas de color */
+}
+
+/* La flèche n’animait déjà pas la couleur, mais si tu veux TOUT snapper (y compris l’apparition/disparition) : */
+.hero__scroll {
+  transition: none !important;            /* plus d’opacité/transform non plus */
+}
+.hero__scroll{
+  position: fixed !important;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: env(safe-area-inset-bottom, 0px);
+  z-index: 10000;          /* au-dessus du hero et du footer */
+  pointer-events: auto;    /* cliquable même si d'autres couches existent */
+  touch-action: manipulation; /* iOS : évite les délais/gestes parasites */
+}
+/* ==== Curseur texte NEXT / PREVIOUS sur les carrousels ==== */
+
+/* On cache le curseur normal quand on est au-dessus du carrousel ou du hero */
+.hero-swiper.is-text-cursor,
+.hero-swiper.is-text-cursor *,
+.carousel.is-text-cursor,
+.carousel.is-text-cursor * {
+  cursor: none !important;
+}
+
+/* Curseur label façon Stoemp (pill blanc semi-transparent) */
+#cursor-label{
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 99999;
+
+  opacity: 0;
+  transition: opacity .12s ease, transform .12s ease;
+}
+
+/* Visible */
+#cursor-label.is-visible{
+  opacity: 1;
+}
+
+/* Le “pill” (texte) */
+#cursor-label .cursor-text{
+  display: inline-block;
+
+  padding: 6px 10px;
+  border-radius: 6px;
+
+  background: rgba(255, 255, 255, 0.75);     /* opacité ~75% */
+  color: #000;
+
+  font-family: 'AlteHaasGroteskRegular', sans-serif;
+  font-size: 11px;
+  letter-spacing: .3px;
+  text-transform: capitalize; /* "Previous", "Next" comme sur Stoemp */
+
+  white-space: nowrap;
+}
+
+/* Si tu avais gardé un dot, on le masque */
+.cursor-dot{
+  display: none !important;
+}
+
+/* ===== CURSEUR : grand cercle noir pour les boutons ===== */
+
+#cursor-circle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 42px;          /* taille du cercle */
+  height: 42px;
+  border: 1px solid #000;  /* épaisseur + couleur */
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  
+  opacity: 0;
+  transition: opacity 0.15s ease-out, transform 0.05s linear;
+}
+
+/* afficher */
+#cursor-circle.is-visible {
+  opacity: 1;
+}
+
+
+#splash { display: none !important; }
+
+/* ==== HERO plein écran (entre header et footer) ==== */
+:root{
+  --hero-side-padding: 0px;
+  --btn-size: 40px;
+}
+
+/* calc dyn = 100vh - header - footer (géré en JS pour la hauteur exacte) */
+.hero{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* la hauteur est posée en ligne via style="" par le JS */
+  padding: 0 var(--hero-side-padding);
+}
+
+.hero__track{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__track img{
+  position: absolute; inset: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0; 
+  transition: none;
+}
+
+.hero__track img.is-active{ opacity: 1; }
+
+/* boutons */
+.hero__btn{
+  position: absolute; top: 50%;
+  transform: translateY(-50%);
+  width: var(--btn-size); height: var(--btn-size);
+  border: 1px solid currentColor; border-radius: 999px;
+  background: rgba(255,255,255,.4);
+  backdrop-filter: blur(6px);
+  display: grid; place-items: center;
+  cursor: pointer;
+  z-index: 20;
+}
+.hero__btn.prev{ left: 8px; }
+.hero__btn.next{ right: 8px; }
+
+/* dots */
+.hero__dots{
+  position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 20;
+}
+.hero__dots button{
+  width: 8px; height: 8px; border-radius: 999px;
+  border: 0; background: #d0d0d0; opacity: .8; cursor: pointer;
+}
+.hero__dots button[aria-current="true"]{ background: #000; opacity: 1; }
+
+/* invite scroll */
+/* Flèche du hero : dans le hero, pas sticky */
+.hero__scroll{
+  position: absolute;           /* (plus fixed) */
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;                 /* valeur par défaut, ajustée en JS */
+  z-index: 20;                  /* sous/au-dessus selon ton footer (5) */
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 1;
+  opacity: .95;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: transparent;
+  transition: opacity .25s ease;
+}
+.hero__scroll.is-hidden{ opacity: 0; pointer-events: none; }
+
+#cursor-label{
+  position: fixed;
+  top:0; left:0;
+  transform: translate(-50%, -50%);
+  pointer-events:none;
+  z-index: 999999;              /* IMPORTANT: au-dessus de Swiper */
+
+  opacity:0;
+  transition: opacity .12s ease;
+}
+
+#cursor-label.is-visible{ opacity:1; }
+
+#cursor-label .cursor-text{
+  display:inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.75);
+  color:#000;
+
+  font-family: 'AlteHaasGroteskRegular', sans-serif;
+  font-size:11px;
+  letter-spacing:.3px;
+  text-transform: capitalize;
+  white-space:nowrap;
+}
+/* Hero plein écran */
+.hero,
+.hero .swiper,
+.hero .swiper-wrapper,
+.hero .swiper-slide {
+  height: 100vh;
+}
+
+.hero .swiper-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Media plein cadre */
+.hero .swiper-slide img,
+.hero .swiper-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* <-- clé */
+  display: block;
+}
+
+/* Important: évite que la vidéo capte le clic */
+.hero .swiper-slide img,
+.hero .swiper-slide video {
+  pointer-events: none;
+}
+
+/* ======================================================
+   MULTI-VIEW (SPA) — TRANSITIONS + CURSOR
+   ====================================================== */
+
+/* ----- View container ----- */
+#view {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1.2s ease-in, opacity 1.2s ease-out, filter 1.2s ease;
+  filter: blur(0px);
+  will-change: opacity, transform;
+}
+
+/* Fade OUT */
+body.animate-out #view {
+  opacity: 0;
+  filter: blur(3px);
+  transform: translateY(0px);
+}
+
+/* Fade IN */
+body.animate-in #view {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+/* ----- Hide native cursor when custom cursor is active ----- */
+body.has-text-cursor,
+body.has-text-cursor * {
+  cursor: none !important;
+}
+
+/* ----- Cursor visibility ----- */
+#cursor-label {
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+#cursor-label.is-visible {
+  opacity: 1;
+}
+
+/* ----- Safety: prevent duplicate headers inside views ----- */
+#view header,
+#view footer {
+  display: none !important;
+}
+
+/* ----- Reduce motion accessibility ----- */
+@media (prefers-reduced-motion: reduce) {
+  #view {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+/* ===== Scroll reveal projects ===== */
+.project{
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 700ms ease, transform 700ms ease;
+  will-change: opacity, transform;
+}
+
+/* état visible */
+.project.inview{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* petite cascade optionnelle */
+.project{
+  transition-delay: var(--stagger, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project{
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+/* ===== Carousel fade (sans casser le layout) ===== */
+.carousel{
+  display: grid;
+  position: relative;
+  overflow: hidden;         /* important */
+}
+
+/* toutes les slides se superposent */
+.carousel > img,
+.carousel > video{
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;  /* recentre le crop */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 600ms ease;
+}
+
+/* slide visible */
+.carousel > img.active,
+.carousel > video.active{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* pendant la transition: on évite les double-clics */
+.carousel.is-animating{
+  pointer-events: none;
+}
+
+/* Exemple: adapte à tes sélecteurs */
+.site-header, .site-footer{
+  color: #000;
+}
+
+body.ui-dark .site-header,
+body.ui-dark .site-footer{
+  color: #fff;
+}
+
+/* si tes liens ont une couleur fixe */
+.site-header a, .site-footer a{
+  color: inherit;
+}
+
+:root{
+  --ui-fg: #000;
+  --ui-fg-hover: rgba(0,0,0,.55);
+}
+
+/* applique la couleur partout où il faut */
+.site-header, .site-footer{
+  color: var(--ui-fg);
+}
+
+.site-header a, .site-footer a{
+  color: var(--ui-fg);
+}
+
+.site-header a:hover, .site-footer a:hover{
+  color: var(--ui-fg-hover);
+}
+
+/* (optionnel) si tu as des borders / icônes */
+.site-header * , .site-footer *{
+  border-color: var(--ui-fg);
+}
+
+/* === UI THEME (source of truth) === */
+:root{
+  --ui-fg: #000;
+  --ui-fg-hover: rgba(0,0,0,.55);
+}
+
+/* force l'overlay à suivre --ui-fg */
+.site-header,
+.site-footer,
+.brand a,
+.site-header .menu a,
+.site-footer .footer-left a,
+.site-footer .footer-right a{
+  color: var(--ui-fg) !important;
+}
+
+.site-header a:hover,
+.site-footer a:hover{
+  color: var(--ui-fg-hover) !important;
+}
+/* === UI fade (header/footer) === */
+.site-header,
+.site-footer,
+.brand a,
+.site-header .menu a,
+.site-footer .footer-left a,
+.site-footer .footer-right a{
+  transition: color 800ms ease, border-color 800ms ease, text-decoration-color 600ms ease;
+}
+
+/* optionnel: si tu veux aussi un petit fondu sur l’underline */
+.site-header a,
+.site-footer a,
+.brand a{
+  text-decoration-color: currentColor;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr" class="has-pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://use.typekit.net/ltz1xqf.css">
+  <link rel="stylesheet" href="https://use.typekit.net/zxh4ctl.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <title>🌏 Aubin Delhaye – Designer Graphique</title>
+</head>
+<body id="app" class="page-fx">
+  <div aria-hidden="true" id="cursor-label">
+    <span class="cursor-dot"></span>
+    <span class="cursor-text"></span>
+  </div>
+
+  <div aria-label="Écran d’introduction" aria-modal="true" id="splash" role="dialog">
+    <h1 class="splash-brand">
+      <span id="type"></span><span aria-hidden="true" class="splash-caret"></span>
+    </h1>
+  </div>
+
+  <header class="site-header">
+    <div class="nav-bar">
+      <div class="brand">
+        <a href="views/hero.html" data-route>salutaubin</a>
+      </div>
+      <nav class="menu" id="left--social">
+        <a href="views/index.html" data-route>Projets</a>
+        <a href="views/about.html" data-route>Profil</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="close-overlay" aria-hidden="true"></div>
+
+  <div id="view" class="site" aria-live="polite"></div>
+  <footer class="site-footer">
+    <div class="footer-bar">
+      <div class="footer-left">
+        <a href="?lang=fr">FR</a> | <a href="?lang=en">EN</a>
+      </div>
+      <div class="footer-right">
+        <a href="mailto:salutaubin@gmail.com">studio@salutaubin.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+  <script src="js/main_app_spa.js" defer></script>
+  <script src="js/router_spa.js" defer></script>
+</body>
+</html>
